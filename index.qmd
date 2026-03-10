@@ -1,7 +1,7 @@
 ---
-title: "Estimating the Determinants of Health Literacy for Policy Prioritisation"
+title: "Public Health Analytics of AMR"
 # : A Local Level Case Study in Newham, London
-subtitle: "UCL CDS Symposium on Data Science in Public Health"
+subtitle: "EPSRC CDT in Engineering Solutions to Antimicrobial Resistance"
 author: "Nathan Green"
 institute: "Department of Statistical Science, UCL"
 format:
@@ -23,7 +23,7 @@ format:
               // Top Bar
               const topBar = document.createElement('div');
               topBar.className = 'top-bar';
-              topBar.innerHTML = '<img src="ucl_logo.svg" alt="UCL Logo" class="ucl-logo"><span class="presentation-title">Determinants of Health Literacy</span><span class="author-info"></span>';
+              topBar.innerHTML = '<img src="ucl_logo.svg" alt="UCL Logo" class="ucl-logo"><span class="presentation-title">Public Health Analytics of AMR</span><span class="author-info"></span>';
               document.body.appendChild(topBar);
 
               // Initial update for the first slide
@@ -40,6 +40,8 @@ filters:
 smaller: true
 progress: true
 bibliography: mybib.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{=html}
@@ -58,22 +60,19 @@ bibliography: mybib.bib
 
 -   Background
 -   Problems
--   Solutions
-    -   Local level estimation
-    -   Predictive comparisons
-    -   Prioritisation
 -   Conclusion
 
 :::: fragment
 ::: callout-note
 ## Resources
 
-Slides and code here: `github.com/n8thangreen/data-science-in-health-talk`
+Slides and code here: `github.com/n8thangreen/AMR-presentation`
 :::
 ::::
 
 ::: notes
-Remember to introduce myself and the topic here. emerging approaches at the interface of data science, statistics, and public health. how data-driven methods are shaping real-world health impact.
+Brief introduction of yourself and your disciplines (Statistics & Health Economics).
+The core message: You can engineer the perfect solution, but if we can't measure its impact or afford it, it won't be adopted.
 :::
 
 <!-- ##  -->
@@ -90,268 +89,418 @@ Remember to introduce myself and the topic here. emerging approaches at the inte
 
 <!-- ::: -->
 
-## Background
+## Aims
 
-::: {align="center"}
-![](fellowship-webpage.png)
-:::
+- How does data analysis, modelling, and public health policy [intersect]{style="color: blue;"} in tackling antimicrobial resistance.
 
-<!-- <img src="fellowship-webpage.png"> -->
+- Provide insight into [key concepts, challenges]{style="color: blue;"}, and [research directions]{style="color: blue;"} 
+  - May encourage further interest and independent exploration.
 
-## Project outline
+- Develop a wide-ranging understanding of the AMR landscape
 
--   Title: **Assesses the factors that determine health literacy and the size of their influence/impact for Newham**
+  - Preventing Infections
+  - Diagnostics and Surveillance
+  - Novel Therapies
 
--   [Health literacy]{style="color: blue;"} is broadly defined as the ability to access, understand, appraise, and communicate health information, enabling individuals to engage in healthcare and maintain good health throughout their lives.
+## Some Relevant Modelling
 
-## 
+- Infectious disease modelling
+- Survival analysis
+- Probabilistic simulation
+  - Cohort model (Markov model)
+  - Discrete Event Simulation (DES)
+  - Microsimulation etc
+- Cost-effectiveness modelling, sensitivity analysis
+- Missing data, linked data sets
+- Causal inference
 
--   Focusses on [Newham]{style="color: blue;"}, a diverse borough in East London that faces unique challenges
--   Identified as having some of the [lowest levels]{style="color: blue;"} of health literacy in the UK by University of Southampton (https://healthliteracy.geodata.uk/)
+#
+
+![](georgebox.jpg)
+
+<!-- ::::: columns -->
+<!-- ::: {.column width="50%"} -->
+<!-- ![](health-literacy-map.png) -->
+<!-- ::: -->
+
+<!-- ::: {.column width="50%"} -->
+<!-- ![](health-literacy-graph.png) -->
+<!-- ::: -->
+<!-- ::::: -->
+
+# Data
+
+## Overview
+
+### What data should we look for?
+* The role of **conceptual models**
+
+### Where will we **find** it?
+* **Sources** and **forms** of data
+* **Searching** for data
+* **Selecting** data
+
+### What do we **do** with it?
+* Evidence synthesis
+* Data transformation
+
+## Steps for reviewing and using relevant data
+
+1. Consider how parameters [relate to each other]{style="color: blue;"} and group them
+
+. . .
+
+2. For each group, consider appropriate data sources
+
+. . .
+
+3. Critically assess the [quality]{style="color: blue;"} of the data sources
+
+. . .
+
+4. Take into consideration the different [hierarchies of evidence]{style="color: blue;"}
+
+## Critical assessment of data sources
+
+Questions to consider.
+
+1. Primary vs. secondary data?
+2. Randomised vs. observational data?
+3. Aggregate statistics vs. individual patient data?
+4. When collected?
+5. Sample size
+6. Heterogeneity, case mix
+
+## Hierarchy of evidence pyramid
+
+![](ebmpyramid.jpg)
+
+## The Global and Local Data for AMR
 
 ::::: columns
 ::: {.column width="50%"}
-![](health-literacy-map.png)
+- **Global level:** WHO GLASS (Global Antimicrobial Resistance and Use Surveillance System).
+
+- **National level:** UKHSA (UK Health Security Agency), ESPAUR reports.
+
+- **Local/Clinical level:** Hospital Electronic Health Records (EHRs), Laboratory Information Management Systems (LIMS).
+
+- **The Surveillance Dichotomy:**
+  - *Passive Surveillance:* Waiting for routine clinical samples (cheap, scalable, but biased).
+  - *Active Surveillance:* Deliberately swabbing populations or environments (comprehensive, but expensive and resource-intensive).
 :::
 
 ::: {.column width="50%"}
-![](health-literacy-graph.png)
+![](who-glass-image.png)
+![](ukhsa-master-logo-960x640-grey.jpg)
 :::
 :::::
 
-## Previous method: Synthetic estimation
-
-::::: columns
-::: {.column width="50%"}
--   Weighted Logistic Regression with Synthetic Estimation (@laursen2016developing)
-    -   Frequentist single-level regression with poststratification
--   Used in [Small Area Estimation (SAE)]{style="color: blue;"} (@gonzalez1973use; @rao2015small)
--   Can be viewed as the simpler predecessor to [Multilevel Regression with Post-stratification (MRP)]{style="color: blue;"}
-    -   Ignores any unique local factors
-    -   MRP includes shrinkage via random effects
+::: notes
+Emphasize to the engineers that their devices will eventually need to plug into these exact data streams. A brilliant point-of-care test is useless if it can't transmit its findings back to the EHR or UKHSA.
 :::
 
-::: {.column width="50%"}
-![](sae-book.jpeg){fig-align="center"}
+
+## Messy, Noisy Data
+![](dilbert-cartoon.jpg) 
+
+## Messy, Noisy Data
+
+- **Selection Bias:** May mainly culture samples from patients who are severely ill or failing first-line therapy.
+
+- **Missingness & Fragmentation:**
+  - Rubin's classification: Missing **Completely** At Random (MCAR), Missing At Random (MAR), Missing **Not** At Random (MAR)
+
+- **Temporal Lags:** E.g. The delay between infection onset, laboratory culturing, and reporting.
+
+- **The Prediction Problem:** High dimensionality.
+
+## Predicting is hard
+  
+- _"Those who have knowledge, don't predict. Those who predict, don't have knowledge."_   
+  — Lao Tzu (Philosopher)
+
+
+- _"People can come up with statistics to prove anything, Kent. Forty percent of all people know that."_
+  — Homer Simpson
+
+##
+
+![](financial-times-forcast-plot.jpeg)
+
+## What can we do about it?
+
+- Multiple imputation
+
+- Bayesian modelling
+
+- Combining multiple data sets
+  - Mutiparameter evidence synthesis (MPES)
+  - (Post) Stratification
+  - (Network) meta-analysis (NMA)
+  - Extrapolation
+  - ...
+
+## Survival curve extrapolation
+
+![](extrapolation-plot.png)
+
+# NMA
+
+![](network-of-evidence-plot.png)
+
+# Health Economics of AMR
+
+## Health Economic Evaluation (HEE) / Health Technology Assessment (HTA)
+
+- **The Goal:** Maximize population health under a strictly constrained budget.
+
+- **The ICER (Incremental Cost-Effectiveness Ratio):**
+  - $\text{ICER} = \frac{\text{Cost}_{\text{new}} - \text{Cost}_{\text{standard}}}{\text{Effect}_{\text{new}} - \text{Effect}_{\text{standard}}}$
+
+- **The Cost-Effectiveness Plane:** Plotting $\Delta\text{Cost}$ against $\Delta\text{Effect}$. Where does your engineering solution land?
+
+- **Willingness to Pay Threshold:** How bodies like NICE (National Institute for Health and Care Excellence) make decisions. Historically, the NHS threshold is £20,000 – £30,000 per QALY gained.
+
+## Recent change in theshold
+
+![](nice-headline.png)
+
+## Recent change in theshold
+
+![](guardian-headline.png)
+
+
+## Measuring the Burden
+
+- **QALYs (Quality-Adjusted Life Years):** Measures health gain ($1 \text{ QALY} = 1 \text{ year in perfect health}$).
+
+- **DALYs (Disability-Adjusted Life Years):** Measures health loss (Years of Life Lost + Years Lived with Disability).
+
+- **Direct Healthcare Costs:** Prolonged hospital stays, intensive care bed days, expensive last-resort antibiotics.
+
+- **Indirect Societal Costs:** Lost productivity, macroeconomic impacts, and the "insurance value" of antibiotics (enabling surgeries, chemotherapy).
+
+::: notes
+Engineers usually think about the cost of manufacturing their device. You need to shift their perspective to the cost of *not* having their device. Mention the "insurance value"—antibiotics underpin all modern medicine.
 :::
-:::::
 
-## Talking a different language :talking:
+##
 
-| Small Area Estimation (SAE) (Previous) |   | HTA / Statistics Method (Me) |
-|:---------------------------|:--------------------:|:---------------------|
-| Weighted Logistic Regression with Synthetic Estimation<br><br> | $\longrightarrow$ | Multilevel Regression with Post-stratification (MRP)<br> |
-| Linear Plug-In Model<br>*(Equivalent to Regression-Synthetic Estimator at Unit Level)* | $\longrightarrow$ | Simulated Treatment Comparison (STC) |
-| Residual-adjusted synthetic estimation | $\longrightarrow$ | Targeted Maximum Likelihood Estimation (TMLE)<br>*(in causal inference)* |
+![](amr-decision-tree.png)
 
-## Problems
+##
 
-1.  What is health literacy level [specific to Newham]{style="color: blue;"}?
-2.  What are the ['drivers']{style="color: blue;"} of health literacy?
-3.  How should we [intervene]{style="color: blue;"} to effect health literacy outcomes?
+![](amr-ce-plane.png)
 
-## Available data
+## Deterministic Sensitivity Analysis (DSA) 
 
--   **Skills for Life (SfL) Survey 2011** \[[MR]{style="color: blue;"}P\]
+![](amr-tornado-plot.png)
 
-    -   Comprehensive computer-based assessment conducted by the ONS to evaluate the skills of literacy, numeracy, and ICT
-    -   Total 7230 adults in England
+## Probablistic Sensitivity Analysis (PSA) 
 
--   **Newham Residents Survey 2023 (NRS)** \[MR[P]{style="color: blue;"}\]
+![](ame-ceac-plot.png)
 
-    -   Periodic survey, usually every two years
-    -   Detailed information on views, experiences, and needs of Newham residents
-    -   Covers satisfaction with local services, community safety, health and well-being, housing, and employment
+# BREAK :smile:
 
--   Additional data
+# Analytics for Engineering Solutions
 
-    -   UK Programme for International Assessment of Adult Competencies (PIAAC) 2023 \[[MR]{style="color: blue;"}P\]
-    -   Skills for Life Survey 2003 \[[MR]{style="color: blue;"}P\]
-    -   Labour Force Survey (LFS) / Annual Population Survey (APS) \[MR[P]{style="color: blue;"}\]
-    -   UK Census 2011, 2021 \[MR[P]{style="color: blue;"}\]
+## Statistical Analysis of Diagnostics
 
-## From Skills for Life to Health literacy
+- **Clinical Reality:** A rapid test is only as good as the clinical action it prompts.
 
-::::: columns
-::: {.column width="50%"}
--   From @rowlands2015
--   Sample of health materials, including
-    -   medicine labels
-    -   booklets
-    -   application forms
--   Covered themes of health promotion, managing illness, systems navigation and disease prevention
--   Assessed for literacy and numeracy complexity by [education experts]{style="color: blue;"}
--   SfL responses were mapped to the binary health literacy scale according to whether they are [above or below threshold]{style="color: blue;"}
-:::
+- **Inherent Properties:** [Sensitivity]{style="color: blue;"} (true positive rate) and [Specificity]{style="color: blue;"} (true negative rate).
 
-::: {.column width="50%"}
-<br> <br> <br> <br> ![](health_literacy_docs_photo.jpeg)
-:::
-:::::
+- **Real-World Performance:** Positive/Negative Predictive Values (PPV/NPV).
 
-## 
+- PPV is highly dependent on *background prevalence*. 
+  - *Takeaway for Engineers:* A highly specific device can still yield mostly false positives if deployed in a low-prevalence population!
 
-# Problem 1: Newham specific health literacy estimates? :thinking:
+## Fundamental classification statistics
 
-## Newham vs Skills for Life profiles
+* **True positive (TP)**: Number of correct predicted positives.
 
-![](dumbbell_plot_literacy.png){fig-align="center"}
+. . .
 
-## [Mutlilevel Regression]{style="color: blue;"} and Post-stratification
+* **True negative (TN)**: Number of correct predicted negatived.
 
-::::: columns
-::: {.column width="50%"}
-The predicted probability defined as: <br> <br> <br> <br> $$
-\hat{\pi}_i = \text{logit}^{-1} \left( \hat{\beta}_0 + \sum_{x} \hat{\beta}^{x}_{\gamma_x[i]} \right)
+. . .
+
+* **False positive (FP)**: Number of incorrect predicted positives. Equivalent with Type I error.
+
+. . .
+
+* **False negative (FN)**: Number of incorrect predicted negatives. Equivalent with Type II error.
+
+## Contingency tables
+
+| | True Positive (p) | True Negative (n) | Total |
+| :--- | :---: | :---: | :---: |
+| **Test Positive (p')** | True Positive (TP) | False Positive (FP) | **P'** |
+| **Test Negative (n')** | False Negative (FN) | True Negative (TN) | **N'** |
+| **Total** | **P** | **N** | |
+
+## Contingency table summary statistics
+
+* **Sensitivity** $= p(T|D) = \frac{TP}{TP+FN}=\frac{TP}{P}$
+
+* **Specificity** $= p(T^c|D^c) = \frac{TN}{FP+TN}=\frac{TN}{N}$
+
+* **Prevalence** $= \frac{TP+FN}{M}=\frac{P}{M}$
+
+* **Positive predictive value (PPV)/precision** $= p(D|T) = \frac{TP}{TP+FP}$
+
+* **False discovery rate (FDR)** $= 1-PPV = p(D^c|T) = \frac{FP}{TP+FP}$
+
+* **Negative predictive value (NPV)** $= p(D^c|T^c) = \frac{TN}{FN+TN}$
+
+* **False omission rate (FOR)** = 1-NPV $= p(D|T^c) = \frac{FN}{FN+TN}$
+
+* **Accuracy** $= \frac{TP+TN}{M}$
+
+## Contingency table summary statistics
+
+Notice that the PPV and NPV depend on the prevalence. We can alternatively compute them using:
+
+* **PPV** = 
 $$
+\frac{sensitivity \times prevalence}{sensitivity \times prevalence + (1- specificity) \times (1-prevalence)}
+$$
+
+* **NPV** =
+$$
+\frac{specificity \times (1-prevalence)}{(1-sensitivity) \times prevalence + specificity \times (1-prevalence)}
+$$
+
+## How to compare the performance of diagnostic tests?
+
+* Dichotomous test (only 2 results)
+
+. . .
+
+  * Odds ratios
+  * Likelihood ratios
+  * Sensitivity specificity, PPV, NPV
+
+. . .
+
+* Multilevel level ($>2$ results)
+
+. . .
+
+  * Receiver operating characteristic curve (ROC)
+
+## Receiver operating characteristic curves (ROC)
+
+* TP rate (sensitivity) on vertical axis and FP rate (1-specificity) on horizontal, for varying classification threshold.
+* Illustrates the [trade-off]{style="color: blue;"} between sensitivity and specificity.
+* A single curve summary of the information in the cumulative distribution functions of the scores of the two classes.
+* c.f. *ROC Curves for Continuous Data*, Krzanowski and Hand (2009).
+
+## {data-menu-title="Normal Classifier"}
+
+![](classifyTNFP2.png){fig-align="center"}
+
+## {data-menu-title="ROC Examples"}
+
+![](roc-curve.png){fig-align="center"}
+
+## Bayesian Thinking
+
+- **Frequentist vs. Bayesian:** - *Frequentist:* The true rate of AMR is fixed; our data is a random sample.
+  - *Bayesian:* Our *belief* about the rate of AMR is a probability distribution, which we update as we get new data.
+- Start with a [prior]{style="color: blue;"} belief, observe new evidence (e.g., from your engineered biosensor), and update to a [posterior]{style="color: blue;"} belief.
+- Diagnostic devices do not give absolute answers; they provide *evidence* that shifts a clinical probability.
+
+::: notes
+Engineers are used to dealing with noisy sensors. Frame the clinical environment the same way. The doctor has a "noisy" guess about what bug the patient has (the prior). The engineer's new biosensor provides a new signal (the likelihood).
 :::
 
-::: {.column width="50%"}
--   $\hat{\beta}_0$ is the intercept, $\hat{\beta}^{x}_{\gamma_x[i]}$ are coefficients for covariates $x$
-    -   age, sex, English language, white ethnicity, UK born, qualifications, income, job status, work role, home ownership
--   $\gamma_x[i]$ represents the level or category for covariate $x$ for individual $i$
--   IMD is included as multilevel random effects $\beta^{\text{IMD}}_j \sim \text{N}(\mu_{\text{IMD}}, \sigma_{\text{IMD}}^2)$
--   Prior distributions for fixed effects normal distributions centered at zero with modest variance
--   Half-normal priors are used for random effect standard deviations
-:::
-:::::
+## Bayes' Theorem for Diagnostics
 
-## Mutlilevel Regression and [Post-stratification]{style="color: blue;"}
+- **The Equation:** $$P(\text{AMR}|\text{Positive Test}) = \frac{P(\text{Positive Test}|\text{AMR}) \cdot P(\text{AMR})}{P(\text{Positive Test})}$$
 
--   The health literacy probabilities for each demographic category (cell $c$) are weighted by their proportion in the actual Newham population
+- **Breaking it down:**
+  - $P(\text{AMR}|\text{Positive Test})$: **Posterior** (What the clinician actually wants to know—the PPV).
+  - $P(\text{Positive Test}|\text{AMR})$: **Likelihood** (Your device's Sensitivity).
+  - $P(\text{AMR})$: **Prior** (Background prevalence of this resistant bug in this specific hospital).
+  - $P(\text{Positive Test})$: **Marginal Likelihood** (Probability of the device firing positive at all).
 
--   11 covariates $\rightarrow$ 13,824 cells
 
--   Post-stratified estimate is: $$
-    \hat{\pi}^{\text{mrp}} = \sum_{c = 1}^{|\mathcal{S}|}  \frac{N_{c} \hat{\pi}_{c}}{N}
-    $$
+## Denominator Bias
 
--   $\mathcal{S}$ is the set of all covariate combinations
+- **The False Positive Paradox:** Let's say you engineer a biosensor that is $99\%$ sensitive and $99\%$ specific.
 
--   $N_c$ is the population frequency for cell $c$
+- You deploy it in a general ward where the prior probability (prevalence) of a specific AMR strain is only $1\%$.
 
--   $N$ is the total population size
+- **The Reality Check:** If the alarm rings, what is the probability the patient actually has the resistant bug?
+  - It's only $50\%$. Half of your alarms will be false positives.
 
-## Missing joint distributions
+- **The Takeaway:** Engineering a highly accurate device is not enough. If you deploy it in the wrong clinical context (the wrong prior), it will cause chaos, over-prescription of antibiotics, and ultimately fail HTA evaluation.
 
-::::: columns
-::: {.column width="50%"}
--   [Raking / Iterative proportional fitting (IPF)]{style="color: blue;"}
-    -   Adjust survey weights so that the sample distribution matches known population control totals (margins)
--   Census data $\rightarrow$ Marginals
--   Labour Force Survey (LFS) $\rightarrow$ Covariance structure
--   Overlap issues, non-representative
-    -   Data augmentation *before* IPF
-    -   Laplace smoothing *after* IPF
-        -   Like "zero cell" problem in meta-analyses
--   [Copula]{style="color: blue;"} method alternative
+::: notes
+Walk them through this math out loud if there's time. 
+Out of 10,000 patients, 100 actually have the bug. The test correctly flags 99 of them.
+9,900 do NOT have the bug. The test incorrectly flags 1% of them = 99 false positives.
+So you have 99 true positives and 99 false positives. Total positive alarms = 198.
+99 / 198 = 50% PPV.
+Watch their minds blow when they realize their 99% accurate sensor is wrong half the time!
 :::
 
-::: {.column width="50%"}
-![](rubics-cube.jpeg){fig-align="right"}
-:::
-:::::
+## Modelling Interventions
 
-# Problem 2: What are the 'drivers' in Newham? :thinking:
+- **The Challenge:** We cannot wait 10 years for a clinical trial to prove a new technology reduces AMR at the population level.
 
-## Predictive comparisons
+- **Mechanistic Models (Transmission Dynamics):** - Adapting SIR (Susceptible-Infected-Recovered) models to hospital wards.
+  - Simulating how a rapid diagnostic cuts the chain of transmission.
 
--   Terminology borrow from @gelman2007. Also called [predicted change in probability]{style="color: blue;"}
--   Previously, crops up in other fields e.g. @lee1981covariance ([covariance adjustment mean difference]{style="color: blue;"})
--   Like [average treatment effects]{style="color: blue;"} without the causal interpretation<br><br><br><br>$$
-    \delta_u(u^{(1)}, u^{(2)}) = \frac{\mathbb{E}(y \mid u^{(2)}) - \mathbb{E}(y \mid u^{(1)})}{u^{(2)} - u^{(1)}}
-    $$
+- **Decision-Analytic Modelling:** - Using decision trees and Markov models.
+  - Mapping the probabilistic patient pathways with vs. without your new technology.
 
-## MRP-PC results
+##
 
-![](ame_forest_group_plot.png){fig-align="center"}
+```{mermaid}
+flowchart LR
+    S([Susceptible]) -->|Infection| I([Infectious])
+    I -->|Recovery| R([Recovered])
+    
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef sClass fill:#add8e6;
+    classDef iClass fill:#ffb6c1;
+    classDef rClass fill:#90ee90;
+    
+    class S sClass;
+    class I iClass;
+    class R rClass;
+```
 
 ## 
 
-# Problem 3: How should we intervene? :thinking:
+![](AMR-SIR-figure.png)
 
-<!-- {background-color="#40666e"} -->
+## System of differential equations
 
-## Priority ranking
+![](AMR-SIR-equations.png) 
 
--   Adopt [Surface Under the Cumulative Ranking Curve (SUCRA)]{style="color: blue;"}
 
-    -   Common in multiple-treatment meta-analysis \cite{Salanti2011}
+## A comment on AI
+![](AI-cartoon.jpg) 
 
--   Percentage of the maximum possible cumulative rank an intervention can achieve
+## Mentimeter
 
--   Providing a [single value]{style="color: blue;"} where a higher SUCRA indicates a better overall rank relative to others $$
-    \text{SUCRA}_{ij} = \sum_{r=1}^{n-1} P_{ijr} / (n-1),
-    $$
-
--   where $P_{ijr}$ is the cumulative probability for variable $i$ at level $j$ and rank $r$
-
--   Mean rank is $$
-    \mathbb{E}[\text{rank}(i,j)] = n - \sum_{r=1}^{n-1} P_{ijr}
-    $$
-
-## Ranking results
-
-![](ame_sucra_group_plot.png)
-
-## 
-
-![](ranking-table.png)
-
-## Sensitivity analyses {visibility="hidden"}
-
--   Concern was raised that the relationship between the covariates and the health literacy outcomes may have [changed over time]{style="color: blue;"}
-
--   So using SfL 2011 is not appropriate?
-
--   Suggested more recent survey data PIAAC 2023
-
-    -   Missing data in PIAAC
-    -   Impute using covariate relationship in SfL 2011
-        -   Weaker assumption than with outcome
-
--   Also fitted to SfL 2001 to see trend back in time
-
-## Covariate imputation {visibility="hidden"}
-
--   Covariate noise introduces [Dilution or Attenuation]{style="color: blue;"}, where signal is weakened
--   [Uncongeniality]{style="color: blue;"} is when there is a mismatch between the imputation and the main model
-    -   Not including outcome essentially drop association with imputed covariates
--   So [trade-off]{style="color: blue;"} between including outcome for congeniality vs excluding because of temporal drift
--   Perform sensitivity analysis by including additional noise to outcome
-    -   Equivalent to influence of [prior distribution]{style="color: blue;"} in Bayesian model
-
-##  {visibility="hidden"}
-
-![](dillution_plots.png)
-
-:::: fragment
-::: callout-note
-Figure from @Hutcheonc2289
-:::
-::::
-
-## Congeniality sensitivity in imputation {visibility="hidden"}
-
-::: r-stack
-![](ame_forest_group_plot_piaac_imp_outcome.png){.fragment width="80%" fig-align="center"}
-
-![](ame_forest_group_plot_piaac_imp_diluted_0.5.png){.fragment width="80%" fig-align="center"}
-
-![](ame_forest_group_plot_piaac_imp_diluted_1.png){.fragment width="80%" fig-align="center"}
-:::
+brief quiz (3–5 multiple-choice or short-answer questions)
 
 ## Conclusions
 
--   The job is not done with the modelling :stop:
+- Models can [describe]{style="color: blue;"}, [explain]{style="color: blue;"} and [predict]{style="color: blue;"}
+  - Machine learning are more black box and designed for prediction
 
--   Borrow methods from other fields
+- **Value is multifaceted:** Cost-effectiveness, not just clinical efficacy
 
--   Data issues are inevitable...deal with it
+- **Engage early:** Engineers, statisticians, and health economists must collaborate [during]{style="color: blue;"} the design phase of a technology, not just at the end.
 
--   [Clear communication]{style="color: blue;"} of results for SME and decision-maker is crucial
-
--   It's an [iterative, team effort]{style="color: blue;"} from project [inception]{style="color: blue;"} to [decision]{style="color: blue;"}
+- _"To consult the statistician after an experiment is finished is often merely to ask him to conduct a post mortem examination. He can perhaps say what the experiment died of."_
+  — Ronald A. Fisher (Presidential Address to the First Indian Statistical Congress, 1938)
 
 ## 
 
