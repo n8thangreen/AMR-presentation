@@ -58,9 +58,13 @@ editor_options:
 
 ## Outline
 
--   Background
--   Problems
--   Conclusion
+- Aims
+- Data
+- Health Economics
+- Diagnostics
+- Bayesian thinking
+- Mechanistic modelling
+- Conclusion
 
 :::: fragment
 ::: callout-note
@@ -206,14 +210,43 @@ Emphasize to the engineers that their devices will eventually need to plug into 
 
 ## Messy, Noisy Data
 
-- **Selection Bias:** May mainly culture samples from patients who are severely ill or failing first-line therapy.
+- **Selection Bias:** May mainly culture samples from patients who are severely ill or failing first-line therapy
 
 - **Missingness & Fragmentation:**
   - Rubin's classification: Missing **Completely** At Random (MCAR), Missing At Random (MAR), Missing **Not** At Random (MAR)
 
-- **Temporal Lags:** E.g. The delay between infection onset, laboratory culturing, and reporting.
+- **Temporal Lags:** E.g. The delay between infection onset, laboratory culturing, and reporting
 
-- **The Prediction Problem:** High dimensionality.
+- **The Prediction Problem:** High dimensionality
+
+## Texas Sharpshooter Fallacy
+
+![](TexasSharpShooter.png)
+
+## Selection Bias
+
+![](shift_rota.jpg)
+
+:::notes
+1. The Texas Sharpshooter Fallacy
+This fallacy occurs when someone highlights similarities in data but ignores the differences, effectively drawing a "bullseye" around a cluster of bullet holes after the shots have already been fired.
+
+In this case: Critics argue that the chart only included the specific deaths and collapses that the prosecution deemed "suspicious." If the definition of a "suspicious" collapse was influenced (even subconsciously) by the fact that Letby was on duty, the chart becomes a self-fulfilling prophecy.
+
+2. Omitted Variable Bias (The Missing Denominator)
+To prove a statistical anomaly, you need the full picture. The roster presented to the jury showed Letby present for 100% of the charged incidents.
+
+The missing data: The chart did not show the overall number of deaths or collapses on the neonatal unit during that period, nor did it show the incidents that occurred when Letby was not on shift. Without knowing the total number of events or comparing the rate of incidents during her shifts to the rate during other nurses' shifts, the chart lacks statistical validity.
+
+3. Exposure and Shift Patterns
+Letby reportedly worked a high number of shifts, including many extra shifts to cover staff shortages, and possessed specialist training that meant she was assigned to the sickest babies.
+
+The statistical reality: If a nurse works significantly more hours than their colleagues—especially in an intensive care setting with highly vulnerable patients—they will naturally be present for a higher absolute number of tragic incidents. The data on the chart did not control for the number of hours worked or the acuity (sickness level) of the patients she was assigned to.
+
+4. Cluster Illusion
+Human brains are wired to find patterns, even in random data. In any hospital unit dealing with critically ill infants, mortality rates can spike due to sheer random chance, hospital-wide infections, understaffing, or systemic failures. When a spike happens, looking for a common denominator (like a specific staff member) can lead to false correlations
+:::
+
 
 ## Predicting is hard
   
@@ -242,10 +275,18 @@ Emphasize to the engineers that their devices will eventually need to plug into 
   - ...
 
 ## Survival curve extrapolation
+@Latimer2022
+
+![](extrapolation-plot-before.png)
+
+## Survival curve extrapolation
+@Latimer2022
 
 ![](extrapolation-plot.png)
 
-# NMA
+## NMA
+
+@Jenkins2021
 
 ![](network-of-evidence-plot.png)
 
@@ -253,12 +294,12 @@ Emphasize to the engineers that their devices will eventually need to plug into 
 
 ## Health Economic Evaluation (HEE) / Health Technology Assessment (HTA)
 
-- **The Goal:** Maximize population health under a strictly constrained budget.
+- **Goal:** Maximize population health under a strictly constrained budget.
 
-- **The ICER (Incremental Cost-Effectiveness Ratio):**
+- **ICER (Incremental Cost-Effectiveness Ratio):**
   - $\text{ICER} = \frac{\text{Cost}_{\text{new}} - \text{Cost}_{\text{standard}}}{\text{Effect}_{\text{new}} - \text{Effect}_{\text{standard}}}$
 
-- **The Cost-Effectiveness Plane:** Plotting $\Delta\text{Cost}$ against $\Delta\text{Effect}$. Where does your engineering solution land?
+- **Cost-Effectiveness Plane:** Plotting $\Delta\text{Cost}$ against $\Delta\text{Effect}$
 
 - **Willingness to Pay Threshold:** How bodies like NICE (National Institute for Health and Care Excellence) make decisions. Historically, the NHS threshold is £20,000 – £30,000 per QALY gained.
 
@@ -287,6 +328,8 @@ Engineers usually think about the cost of manufacturing their device. You need t
 
 ##
 
+@RuizRamos2017
+
 ![](amr-decision-tree.png)
 
 ##
@@ -303,7 +346,7 @@ Engineers usually think about the cost of manufacturing their device. You need t
 
 # BREAK :smile:
 
-# Analytics for Engineering Solutions
+# Diagnostics
 
 ## Statistical Analysis of Diagnostics
 
@@ -314,7 +357,7 @@ Engineers usually think about the cost of manufacturing their device. You need t
 - **Real-World Performance:** Positive/Negative Predictive Values (PPV/NPV).
 
 - PPV is highly dependent on *background prevalence*. 
-  - *Takeaway for Engineers:* A highly specific device can still yield mostly false positives if deployed in a low-prevalence population!
+  - Highly specific device can still yield mostly false positives if deployed in a low-prevalence population!
 
 ## Fundamental classification statistics
 
@@ -403,12 +446,16 @@ $$
 
 ## {data-menu-title="ROC Examples"}
 
+@Krzanowski2009
+
 ![](roc-curve.png){fig-align="center"}
 
-## Bayesian Thinking
+# Bayesian Thinking
 
-- **Frequentist vs. Bayesian:** - *Frequentist:* The true rate of AMR is fixed; our data is a random sample.
-  - *Bayesian:* Our *belief* about the rate of AMR is a probability distribution, which we update as we get new data.
+## Frequentist vs. Bayesian:*
+
+- *Frequentist:* The true rate of AMR is fixed; our data is a random sample.
+- *Bayesian:* Our *belief* about the rate of AMR is a probability distribution, which we update as we get new data.
 - Start with a [prior]{style="color: blue;"} belief, observe new evidence (e.g., from your engineered biosensor), and update to a [posterior]{style="color: blue;"} belief.
 - Diagnostic devices do not give absolute answers; they provide *evidence* that shifts a clinical probability.
 
@@ -429,14 +476,14 @@ Engineers are used to dealing with noisy sensors. Frame the clinical environment
 
 ## Denominator Bias
 
-- **The False Positive Paradox:** Let's say you engineer a biosensor that is $99\%$ sensitive and $99\%$ specific.
+- **False Positive Paradox:** Let's say you engineer a biosensor that is $99\%$ sensitive and $99\%$ specific.
 
 - You deploy it in a general ward where the prior probability (prevalence) of a specific AMR strain is only $1\%$.
 
-- **The Reality Check:** If the alarm rings, what is the probability the patient actually has the resistant bug?
+- **Reality Check:** If the alarm rings, what is the probability the patient actually has the resistant bug?
   - It's only $50\%$. Half of your alarms will be false positives.
 
-- **The Takeaway:** Engineering a highly accurate device is not enough. If you deploy it in the wrong clinical context (the wrong prior), it will cause chaos, over-prescription of antibiotics, and ultimately fail HTA evaluation.
+- **Takeaway:** Engineering a highly accurate device is not enough. If you deploy it in the wrong clinical context (the wrong prior), e.g. over-prescription of antibiotics, and ultimately fail HTA evaluation.
 
 ::: notes
 Walk them through this math out loud if there's time. 
@@ -447,15 +494,20 @@ So you have 99 true positives and 99 false positives. Total positive alarms = 19
 Watch their minds blow when they realize their 99% accurate sensor is wrong half the time!
 :::
 
-## Modelling Interventions
+# Mechanistic Modelling
 
-- **The Challenge:** We cannot wait 10 years for a clinical trial to prove a new technology reduces AMR at the population level.
+##
+
+- **Challenge:** We cannot wait 10 years for a clinical trial to prove a new technology reduces AMR at the population level.
+  - Indirect interactions
+  - Mass action
+  
+:::notes
+assumes individuals in a population mix randomly and uniformly, where the rate of new infections is proportional to the product of susceptible and infectious individuals.
+:::
 
 - **Mechanistic Models (Transmission Dynamics):** - Adapting SIR (Susceptible-Infected-Recovered) models to hospital wards.
-  - Simulating how a rapid diagnostic cuts the chain of transmission.
-
-- **Decision-Analytic Modelling:** - Using decision trees and Markov models.
-  - Mapping the probabilistic patient pathways with vs. without your new technology.
+  - E.g. simulating how a rapid diagnostic cuts the chain of transmission.
 
 ##
 
@@ -475,6 +527,8 @@ flowchart LR
 ```
 
 ## 
+
+@Durazzi2023
 
 ![](AMR-SIR-figure.png)
 
